@@ -2,8 +2,7 @@ const router = require('express').Router();
 const User = require('../models/user');
 const utils = require('../lib/utils');
 
-//TODO
-router.get('/register', (req, res, next) => {
+router.get('/register', (req, res) => {
     res.render('register')
 });
 
@@ -29,7 +28,7 @@ router.post('/register', async (req, res) => {
     }
 })
 
-router.get('/login', (req, res, next) => {
+router.get('/login', (req, res) => {
     res.render('login')
 });
 
@@ -54,11 +53,6 @@ router.post('/login', async (req, res, next) => {
         next(e)
     }
 
-});
-
-//TODO
-router.get('/protected', (req, res, next) => {
-    res.send('Protected')
 });
 
 module.exports = router;
