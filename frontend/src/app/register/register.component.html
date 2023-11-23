@@ -1,1 +1,12 @@
-<p>register works!</p>
+<h1>Registration</h1>
+
+
+<form [formGroup]="form">
+    <label>Login</label>
+    <input formControlName="username">
+
+    <label>Password</label>
+    <input formControlName="password">
+
+    <button (click)="onSubmit()">Submit</button>
+</form>
