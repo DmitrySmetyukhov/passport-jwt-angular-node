@@ -8,7 +8,7 @@ router.get('/register', (req, res, next) => {
 });
 
 router.post('/register', async (req, res) => {
-    const isLoginExists = await User.findOne({ username: req.body.login });
+    const isLoginExists = await User.findOne({ username: req.body.username });
     if (isLoginExists) {
         res.json('Such a login already exists');
     } else {
@@ -29,9 +29,31 @@ router.post('/register', async (req, res) => {
     }
 })
 
-//TODO
 router.get('/login', (req, res, next) => {
-    res.send('Login')
+    res.render('login')
+});
+
+router.post('/login', async (req, res, next) => {
+    try {
+
+        const user = await User.findOne({ username: req.body.username });
+
+        if (!user) {
+            return res.status(401).json('User not found')
+        }
+
+        const isValid = utils.isPasswordValid(req.body.password, user.hash, user.salt);
+
+        if (isValid) {
+            const tokenObject = utils.issueJWT(user);
+            res.status(200).json({ token: tokenObject.token })
+        } else {
+            res.status(401).json('Wrong password')
+        }
+    } catch (e) {
+        next(e)
+    }
+
 });
 
 //TODO
