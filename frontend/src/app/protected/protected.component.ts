@@ -12,7 +12,7 @@ export class ProtectedComponent {
   }
 
   ngOnInit() {
-    this.http.get<any>('http://localhost:3000/protected').subscribe(
+    this.http.get<any>('/api/test').subscribe(
       response => console.log(response),
       error => console.log(error)
     )
