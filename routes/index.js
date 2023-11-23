@@ -10,4 +10,8 @@ router.get('/protected', passport.authenticate('jwt', {session: false}), (req, r
     res.send('You have entered to protected page')
 });
 
+router.get('/test', (req, res) => {
+    res.json('Test')
+})
+
 module.exports = router;
