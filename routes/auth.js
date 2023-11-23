@@ -1,15 +1,14 @@
 const router = require('express').Router();
 const User = require('../models/user');
 const utils = require('../lib/utils');
-
-router.get('/register', (req, res) => {
+router.get('/register', (req, res, next) => {
     res.render('register')
 });
 
 router.post('/register', async (req, res) => {
     const isLoginExists = await User.findOne({ username: req.body.username });
     if (isLoginExists) {
-        res.json('Such a login already exists');
+        res.json({message: 'Such a login already exists'});
     } else {
         const { salt, hash } = utils.genPassword(req.body.password);
 
@@ -28,7 +27,7 @@ router.post('/register', async (req, res) => {
     }
 })
 
-router.get('/login', (req, res) => {
+router.get('/login', (req, res, next) => {
     res.render('login')
 });
 
@@ -38,7 +37,7 @@ router.post('/login', async (req, res, next) => {
         const user = await User.findOne({ username: req.body.username });
 
         if (!user) {
-            return res.status(401).json('User not found')
+            return res.status(401).json({message: 'User not found'})
         }
 
         const isValid = utils.isPasswordValid(req.body.password, user.hash, user.salt);
@@ -47,7 +46,7 @@ router.post('/login', async (req, res, next) => {
             const tokenObject = utils.issueJWT(user);
             res.status(200).json({ token: tokenObject.token })
         } else {
-            res.status(401).json('Wrong password')
+            res.status(401).json({message: 'Wrong password'})
         }
     } catch (e) {
         next(e)

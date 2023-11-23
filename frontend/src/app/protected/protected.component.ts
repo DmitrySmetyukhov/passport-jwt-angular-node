@@ -7,14 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./protected.component.css']
 })
 export class ProtectedComponent {
+  public message = '';
   constructor(private http: HttpClient) {
 
   }
 
   ngOnInit() {
-    this.http.get<any>('/api/test').subscribe(
-      response => console.log(response),
-      error => console.log(error)
+    this.http.get<any>('/api/protected').subscribe(
+      response => this.message= response.message,
+      error => {
+        console.log(error);
+        this.message = error.message;
+      }
     )
   }
 }
