@@ -16,13 +16,17 @@ export class AuthService {
 
   register(data: UserCredentials) {
     return this.http.post<any>('/api/auth/register', data).pipe(
-      tap((response:any) => console.log(response))
+      tap((response: any) => console.log(response))
     )
   }
 
-  login(data: UserCredentials){
+  login(data: UserCredentials) {
     return this.http.post<any>('/api/auth/login', data).pipe(
-      tap((response) => console.log(response))
+      tap((response) => {
+        if (response.token) {
+          localStorage.setItem('id_token', response.token);
+        }
+      })
     )
   }
 }
