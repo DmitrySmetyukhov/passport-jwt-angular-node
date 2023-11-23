@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 //TODO
 router.get('/register', (req, res, next) => {
-   res.send('REGISTER')
+   res.render('register')
 });
 
 //TODO
