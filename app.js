@@ -1,10 +1,12 @@
 const express = require('express');
 const routes = require('./routes');
-require('./config/database.js')
+const passport = require('passport');
+require('./config/database.js');
 
 require('dotenv').config();
 const app = express();
 
+require('./config/passport')(passport);
 
 app.use(routes);
 
